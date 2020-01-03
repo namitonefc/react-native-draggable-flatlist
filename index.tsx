@@ -519,7 +519,7 @@ class DraggableFlatList<T> extends React.Component<Props<T>, State> {
     this.targetScrollOffset.setValue(offset)
     this.isAutoscrolling.native.setValue(1)
     this.isAutoscrolling.js = true
-    this.flatlistRef.current._component.scrollToOffset({ offset })
+    this.flatlistRef.current._component.scrollToOffset({ offset, animated: false })
   })
 
   getScrollTargetOffset = (
