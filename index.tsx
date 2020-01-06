@@ -14,6 +14,7 @@ import {
   TapGestureHandlerGestureEvent,
 } from "react-native-gesture-handler"
 import Animated from "react-native-reanimated"
+import DeviceInfo from "react-native-device-info";
 import {
   getOnCellTap,
   springFill,
@@ -21,7 +22,8 @@ import {
 } from './procs'
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
-
+let deviceId =  DeviceInfo.getDeviceId()
+let showAnimation = ['iPhone6,1', 'iPhone6,2', 'iPhone7,1', 'iPhone7,2', 'iPhone8,1', 'iPhone8,2', 'iPhone8,4' ].includes(deviceId)
 const {
   Value,
   abs,
@@ -519,7 +521,11 @@ class DraggableFlatList<T> extends React.Component<Props<T>, State> {
     this.targetScrollOffset.setValue(offset)
     this.isAutoscrolling.native.setValue(1)
     this.isAutoscrolling.js = true
-    this.flatlistRef.current._component.scrollToOffset({ offset, animated: false })
+    if(showAnimation) {
+      this.flatlistRef.current._component.scrollToOffset({ offset })
+    } else {
+      this.flatlistRef.current._component.scrollToOffset({ offset, animated: false })
+    }
   })
 
   getScrollTargetOffset = (
